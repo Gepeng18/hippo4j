@@ -132,9 +132,11 @@ public class LongPollingService {
                     String identity = groupKey + GROUP_KEY_DELIMITER + identify;
                     List<String> parseMapForFilter = CollectionUtil.newArrayList(identity);
                     if (StringUtil.isBlank(identify)) {
+                        // clientMd5Map 中的key包含 groupKey，则放到一个list中
                         parseMapForFilter = MapUtil.parseMapForFilter(clientSub.clientMd5Map, groupKey);
                     }
                     parseMapForFilter.forEach(each -> {
+                        // 这里就是遍历 parseMapForFilter
                         if (clientSub.clientMd5Map.containsKey(each)) {
                             getRetainIps().put(clientSub.clientIdentify, System.currentTimeMillis());
                             ConfigCacheService.updateMd5(each, clientSub.clientIdentify, ConfigCacheService.getContentMd5(each));

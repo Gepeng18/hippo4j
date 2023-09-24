@@ -50,6 +50,9 @@ public class ThreadPoolAdapterController {
     private final ConfigurableEnvironment environment;
     private final InetUtils hippo4jInetUtils;
 
+    /**
+     * 获取线程池的信息
+     */
     @GetMapping("/adapter/thread-pool/info")
     public Result<ThreadPoolAdapterState> getAdapterThreadPool(ThreadPoolAdapterParameter requestParameter) {
         ThreadPoolAdapter threadPoolAdapter = THREAD_POOL_ADAPTER_BEAN_CONTAINER.get(requestParameter.getMark());
@@ -72,6 +75,9 @@ public class ThreadPoolAdapterController {
         return new Result<ThreadPoolAdapterState>().setCode(Result.SUCCESS_CODE).setData(result);
     }
 
+    /**
+     * 更新线程池
+     */
     @PostMapping("/adapter/thread-pool/update")
     public Result<Void> updateAdapterThreadPool(@RequestBody ThreadPoolAdapterParameter requestParameter) {
         log.info("[{}] Change third-party thread pool data. key: {}, coreSize: {}, maximumSize: {}",
