@@ -103,6 +103,12 @@ public class ReportingEventExecutor implements Runnable, CommandLineRunner, Disp
         }
     }
 
+    /**
+     * 两部分监控逻辑
+     * 1、调用SPI or Spring 扫描所有的 ThreadPoolMonitor，全部放到 threadPoolMonitors中，然后搜集线程池数据后 打日志 or 发到 es中
+     * 2、调用Spring 扫描所有的Collector，然后搜集数据后放到本地内存队列中，再创建一个线程死循环从队列中拿数据发送到Server。 Server将数据写入DB。Dashboard提供接口进行读取
+     * @param args
+     */
     @Override
     public void run(String... args) {
         MonitorProperties monitor = properties.getMonitor();

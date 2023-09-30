@@ -169,7 +169,7 @@ public class LongPollingService {
             timeout = Math.max(MAX_TIMEOUT, getFixedPollingInterval());
         } else {
             List<String> changedGroups = Md5ConfigUtil.compareMd5(req, clientMd5Map);
-            if (!changedGroups.isEmpty()) {
+            if (!changedGroups.isEmpty()) { // 有改变的group
                 generateResponse(rsp, changedGroups);
                 shouldReturn = true;
             } else if (noHangUpFlag != null && noHangUpFlag.equalsIgnoreCase(TRUE_STR)) {
@@ -178,6 +178,7 @@ public class LongPollingService {
             }
         }
 
+        // 如果没得到想要的数据，就 hang up
         if (!shouldReturn) {
             String clientIdentify = RequestUtil.getClientIdentify(req);
             final AsyncContext asyncContext = req.startAsync();
@@ -194,6 +195,9 @@ public class LongPollingService {
 
         final AsyncContext asyncContext;
 
+        /**
+         * message-consume+dynamic-threadpool-example+prescription+127.0.0.1:8088_239a47f2143b4cfb90a0a9b97ba32521 -> 818b1cc427951bc3497d22301b952521
+         */
         final Map<String, String> clientMd5Map;
 
         final long createTime;

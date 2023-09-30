@@ -77,6 +77,9 @@ public class ThreadPoolController {
 
     private static final String HTTP = "http://";
 
+    /**
+     * 线程池管理
+     */
     @PostMapping("/query/page")
     public Result<IPage<ThreadPoolRespDTO>> queryNameSpacePage(@RequestBody ThreadPoolQueryReqDTO reqDTO) {
         return Results.success(threadPoolService.queryThreadPoolPage(reqDTO));
@@ -87,6 +90,9 @@ public class ThreadPoolController {
         return Results.success(threadPoolService.getThreadPool(reqDTO));
     }
 
+    /**
+     * 线程池管理
+     */
     @PostMapping("/save_or_update")
     public Result saveOrUpdateThreadPoolConfig(@RequestParam(value = "identify", required = false) String identify,
                                                @Validated @RequestBody ThreadPoolSaveOrUpdateReqDTO reqDTO) {
@@ -193,6 +199,9 @@ public class ThreadPoolController {
         return Results.success();
     }
 
+    /**
+     * 从这段代码猜测：registry是最新的，CLIENT_CONFIG_CACHE是老的数据
+     */
     @GetMapping("/list/instance/{itemId}/{tpId}")
     public Result<List<ThreadPoolInstanceInfo>> listInstance(@PathVariable("itemId") String itemId,
                                                              @PathVariable("tpId") String tpId) {
