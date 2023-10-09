@@ -75,6 +75,7 @@ public class BaseInstanceRegistry implements InstanceRegistry<InstanceInfo> {
             Long existingLastDirtyTimestamp = existingLease.getHolder().getLastDirtyTimestamp();
             Long registrationLastDirtyTimestamp = registrant.getLastDirtyTimestamp();
             if (existingLastDirtyTimestamp > registrationLastDirtyTimestamp) {
+                // 修改map内部的
                 registrant = existingLease.getHolder();
             }
         }

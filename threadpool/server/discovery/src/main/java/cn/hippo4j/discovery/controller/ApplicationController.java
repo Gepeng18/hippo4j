@@ -59,6 +59,9 @@ public class ApplicationController {
         return Results.success();
     }
 
+    /**
+     * 心跳包
+     */
     @PostMapping("/renew")
     public Result<Void> renew(@RequestBody InstanceInfo.InstanceRenew instanceRenew) {
         boolean isSuccess = instanceRegistry.renew(instanceRenew);

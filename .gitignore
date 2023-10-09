@@ -54,3 +54,4 @@ docker/target
 
 ### OS ###
 .DS_Store
+.flattened-pom.xml

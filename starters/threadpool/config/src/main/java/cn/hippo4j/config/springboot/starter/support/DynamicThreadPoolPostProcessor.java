@@ -96,6 +96,8 @@ public final class DynamicThreadPoolPostProcessor implements BeanPostProcessor {
     }
 
     /**
+     * 1、依据threadPoolId 保存报警信息
+     * 2、将线程池和对应的构造的配置
      * Fill the thread pool and register.
      *
      * @param threadPoolId dynamic thread-pool id
@@ -110,14 +112,18 @@ public final class DynamicThreadPoolPostProcessor implements BeanPostProcessor {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("The thread pool id does not exist in the configuration."));
             try {
+                // 合并配置
                 executorProperties = buildActualExecutorProperties(executorProperties);
+                // 替换线程池参数
                 threadPoolParamReplace(executor, executorProperties);
             } catch (Exception ex) {
                 log.error("Failed to initialize thread pool configuration.", ex);
             }
+            // 存储报警策略
             ThreadPoolNotifyAlarm threadPoolNotifyAlarm = buildThreadPoolNotifyAlarm(executorProperties);
             GlobalNotifyAlarmManage.put(threadPoolId, threadPoolNotifyAlarm);
         }
+        // 存储线程池
         ThreadPoolExecutorRegistry.putHolder(threadPoolId, executor,
                 executorProperties == null
                         ? buildDefaultExecutorProperties(threadPoolId, executor)
@@ -132,6 +138,7 @@ public final class DynamicThreadPoolPostProcessor implements BeanPostProcessor {
     }
 
     /**
+     * 将 executorProperties 和 configProperties.getDefaultExecutor() 合并
      * Build actual executor properties.
      *
      * @param executorProperties executor properties
